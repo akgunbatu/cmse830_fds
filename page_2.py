@@ -57,7 +57,7 @@ df_imputed = impute_and_inverse_transform(df_numeric) #using the impute and inve
 
 st.subheader("Distribution Before vs After Imputation") 
 
-select = st.selectbox("Select a column to view", numeric_columns, index=0) #creating a select box for users to select which numeric column from the list they want to view
+select = st.selectbox("Select a column to view", numeric_columns, index=1) #creating a select box for users to select which numeric column from the list they want to view, defaut is engine_hp
 
 
 fig2, ax2 = plt.subplots(figsize=(8, 4))

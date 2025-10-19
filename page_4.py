@@ -25,7 +25,7 @@ price_range = st.slider(
 ) #creating a slider for price for user to pick its own range of price using the minimum and maximu values
 
 
-df_filtered = df_new[(df_new["price"] >= price_range[0]) and (df_new["price"] <= price_range[1])] #creating a new dataset using the selected price range
+df_filtered = df_new[(df_new["price"] >= price_range[0]) & (df_new["price"] <= price_range[1])] #creating a new dataset using the selected price range
 #for this line I used ChatGPT to understand how I can intergrate the slider to the dataset 
 
 
@@ -71,11 +71,6 @@ fig_3d = px.scatter_3d(df_filtered,x=x_axis,y=y_axis,z=z_axis,color=color_pick,t
     opacity=0.7,width=1000,height=700
 ) #creating a 3d plot with the x, y, z-axis and the color picked (height and width are also defined here)
 
-fig_3d.update_layout(
-    xaxis = dict(range=[price_range[0], price_range[1]] if x_axis == "price" else None),
-    yaxis = dict(range=[price_range[0], price_range[1]] if x_axis == "price" else None),
-    zaxis = dict(range=[price_range[0], price_range[1]] if x_axis == "price" else None)
-) #updating the range of axes if the price is chosne for that specific axis
 
 st.plotly_chart(fig_3d, use_container_width=True)
 
