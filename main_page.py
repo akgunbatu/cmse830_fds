@@ -15,7 +15,7 @@ st.title("Vehicle Price Prediction — Data Introduction") #title of the page
 
 #loading the necessary datasets
 car_v4 = pd.read_csv("car details v4.csv")
-vehicle_df = pd.read_csv("vehicle_price_prediction.csv")
+vehicle_df = pd.read_csv("vehicle_price_prediction.zip")
 df_new = pd.read_csv("df_new.csv")
 df_new = df_new.drop(columns = "Unnamed: 0") #dropping the first unknown column
 
