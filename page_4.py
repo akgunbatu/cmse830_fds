@@ -21,7 +21,7 @@ price_range = st.slider(
     'Select a Price Range:',
     min_price, max_price,
     value=(min_price, 50000),
-    step=5000
+    step=1000
 ) #creating a slider for price for user to pick its own range of price using the minimum and maximu values
 
 
@@ -46,9 +46,7 @@ fig_scatter = px.scatter(df_filtered,x=x_axis,y=y_axis,color=color_pick,
 ) # Creating a scatter plot from the x and y axes and color is the color pick from previous selection with a regression line (built-in function in pyplot)
 
 fig_scatter.update_layout(width=1000,height=600,
-    xaxis_title=x_axis,yaxis_title=y_axis,
-    xaxis=dict(range=[df_filtered[x_axis].min(), df_filtered[x_axis].max()]),
-    yaxis=dict(range=[df_filtered[y_axis].min(),df_filtered[y_axis].max()])
+    xaxis_title=x_axis,yaxis_title=y_axis
 ) #updating the width, height, titles and ranges of the plot
 
 st.plotly_chart(fig_scatter, use_container_width=True)
@@ -57,9 +55,8 @@ st.plotly_chart(fig_scatter, use_container_width=True)
 st.subheader(f"Distribution by {color_pick}")
 fig_price = px.histogram(df_filtered, x=x_axis, color=color_pick, nbins=40) #setting up a histogram for the x axis and the color picked for distribution visualization
 fig_price.update_layout(
-    xaxis=dict(range=[price_range[0], price_range[1]] if x_axis == "price" else None),
     width=1000,height=600,bargap=0.1
-) #updating the range of the x if the x is price, the height and width
+) #updating the height and width
 st.plotly_chart(fig_price, use_container_width=True)
 
 
