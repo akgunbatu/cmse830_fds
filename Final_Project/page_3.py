@@ -11,7 +11,7 @@ st.sidebar.title("Correlations")#setting up a title for the side column
 st.sidebar.info("Explore how features relate to vehicle price and each other.") # A quick summary of what to expect from the page
 
 
-df_new = pd.read_csv("df_final.csv") #loading the dataset
+df_new = pd.read_csv("Final_Project/df_final.csv") #loading the dataset
 df_new = df_new.drop(columns = "Unnamed: 0") #dropping the unknown column from the dataset
 
 

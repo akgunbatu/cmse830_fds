@@ -11,7 +11,7 @@ st.title("Exploratory Data Analysis (EDA)") #title of the page
 
 st.sidebar.title("EDA Visualization") #sidebar title
 
-df_new = pd.read_csv("df_final.csv") #loading the dataset
+df_new = pd.read_csv("Final_Project/df_final.csv") #loading the dataset
 
 
 min_price = int(df_new['price'].min()) #defining the minimum value for price

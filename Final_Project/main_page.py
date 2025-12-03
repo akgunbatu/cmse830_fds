@@ -14,11 +14,11 @@ st.sidebar.info("Overview of both datasets, and merged datasets cleaned.") # A q
 st.title("Vehicle Price Prediction — Data Introduction") #title of the page
 
 #loading the necessary datasets
-car_v4 = pd.read_csv("ford.csv")
-vehicle_df = pd.read_csv("vehicle_price_prediction.zip")
-car_df = pd.read_csv("car_price_prediction_.csv")
-df_new = pd.read_csv("df_final_na.csv")
-#df_new = df_new.drop(columns = "Unnamed: 0") #dropping the first unknown column
+ford_df = pd.read_csv("Final_Project/ford.csv")
+vehicle_df = pd.read_csv("Final_Project/vehicle_price_prediction.zip")
+car_df = pd.read_csv("Final_Project/car_price_prediction_.csv")
+df_new = pd.read_csv("Final_Project/df_final_na.csv")
+df_new = df_new.drop(columns = "Unnamed: 0") #dropping the first unknown column
 
 st.markdown('Select a Dataset to View') #title for the button selection
 
@@ -26,7 +26,7 @@ dataset = st.radio("Choose a dataset:", ('Ford Vehicles', 'Vehicle Price Predict
 
 if dataset == 'Ford Vehicles':
     st.markdown("Ford Vehicle Dataset")
-    st.dataframe(car_v4.head())
+    st.dataframe(ford_df.head())
     #introducing the dataset and showing the first 5 rows
 
 elif dataset == 'Vehicle Price Prediction':

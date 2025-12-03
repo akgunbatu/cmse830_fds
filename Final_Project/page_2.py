@@ -9,7 +9,7 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import train_test_split
 
 
-df_new = pd.read_csv("df_final_na.csv") #loading the merged dataset
+df_new = pd.read_csv("Final_Project/df_final_na.csv") #loading the merged dataset
 
 st.subheader("Missing Values Overview")
 missing_counts = df_new.isnull().sum() #counting all the missing values in each column

@@ -12,7 +12,7 @@ st.title("🔍 Lasso vs Ridge Regression Explorer")
 # ---------------------------
 # Load your dataset
 # ---------------------------
-df =  pd.read_csv("df_final.csv") # <-- your dataset
+df =  pd.read_csv("Final_Project/df_final.csv") # <-- your dataset
 
 
 
