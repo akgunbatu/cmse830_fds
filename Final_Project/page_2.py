@@ -37,7 +37,7 @@ st.write("""
 
 df_missing = df_new[df_new.isna().any(axis=1)]
 df_complete = df_new[~df_new.isna().any(axis=1)]
-df_missing_sampled = df_missing.sample(n=9000, random_state=42)
+df_missing_sampled = df_missing.sample(n=8000, random_state=42)
 
 # 3. Combine back: all complete rows + the 10,000 sampled missing rows
 df_reduced = pd.concat([df_complete, df_missing_sampled], ignore_index=True)
@@ -65,7 +65,7 @@ df_imputed = impute_and_inverse_transform(df_numeric) #using the impute and inve
 
 st.subheader("Distribution Before vs After Imputation") 
 
-select = st.selectbox("Select a column to view", numeric_columns, index=1) #creating a select box for users to select which numeric column from the list they want to view, defaut is engine_hp
+select = st.selectbox("Select a column to view", numeric_columns, index=2) #creating a select box for users to select which numeric column from the list they want to view, defaut is engine_hp
 
 
 fig2, ax2 = plt.subplots(figsize=(8, 4))
