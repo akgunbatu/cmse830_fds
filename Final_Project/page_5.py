@@ -75,7 +75,7 @@ if st.button("Run Regression Model"):
     # ---------------------------
     st.subheader(f"Results: {model_choice}")
 
-    col1, col2, col3 = st.columns(2)
+    col1, col2, col3 = st.columns(3)
     col1.metric("Mean-Squared Error", f"{mse:,.2f}")
     col2.metric("Root Mean-Squared Error", f"{rmse:,.2f}")
     col3.metric("R² Score", f"{r2:.4f}")
