@@ -13,35 +13,41 @@ st.write("""Enter what type of car you are looking for and the model will predic
 # -------------------------
 # Load dataset
 # -------------------------
-df = pd.read_csv("Final_Project/df_final.csv")
+@st.cache_data
+def load_data():
+    return pd.read_csv("Final_Project/df_final.csv")
 
-# -------------------------
-# PREPARE ENCODING
-# -------------------------
 
-# Correct categorical column names
-categorical_cols = ['fuel_type', 'make', 'Transmission Class']
+@st.cache_resource
+def train_models(df):
+    categorical_cols = ["fuel_type", "make", "Transmission Class"]
 
-# Encode df
-df_encoded = pd.get_dummies(df, columns=categorical_cols, drop_first=True)
+    # Encode main dataset
+    df_encoded = pd.get_dummies(df, columns=categorical_cols, drop_first=True)
 
-# X and y
-X = df_encoded.drop(columns=['price','drivetrain','body_type', 'transmission','model'])  # everything EXCEPT price
-y = df_encoded['price']
+    # Inputs/features
+    X = df_encoded.drop(columns=['price', 'drivetrain', 'body_type',
+                                 'transmission', 'model'])
+    y = df_encoded['price']
 
-model_features = X.columns.tolist()
+    # Fit scaler
+    scaler = StandardScaler()
+    X_scaled = scaler.fit_transform(X)
 
-# -------------------------
-# TRAIN MODELS
-# -------------------------
-scaler = StandardScaler()
-X_scaled = scaler.fit_transform(X)
+    # Fit Lasso + Ridge
+    lasso = Lasso(alpha=0.1)
+    lasso.fit(X_scaled, y)
 
-lasso = Lasso(alpha=0.1)
-lasso.fit(X_scaled, y)
+    ridge = Ridge(alpha=1)
+    ridge.fit(X_scaled, y)
 
-ridge = Ridge(alpha=1)
-ridge.fit(X_scaled, y)
+    # Return models + required features
+    return scaler, lasso, ridge, X.columns.tolist()
+
+df = load_data()
+scaler, lasso, ridge, model_features = train_models(df)
+
+categorical_cols = ["fuel_type", "make", "Transmission Class"]
 
 # -------------------------
 # USER INPUT SECTION
@@ -58,7 +64,7 @@ mileage = st.number_input("Mileage", 0, 400000, 60000)
 engine_hp = st.number_input("Engine HP", 50, 1200, 250)
 owner_count = st.number_input("Owner Count", 0, 10, 1)
 vehicle_age = st.number_input("Vehicle Age", 0, 40, 5)
-brand_pop = st.number_input("Brand Popularity",min_value=0.039318,max_value=0.040484,value=0.039800,step=0.000001)
+brand_pop = st.number_input("Brand Popularity",min_value=0.039318,max_value=0.040484,value=0.039800,step=0.00001)
 # -------------------------
 # PACK INPUT
 # -------------------------
