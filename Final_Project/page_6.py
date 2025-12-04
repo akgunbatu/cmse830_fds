@@ -4,11 +4,10 @@ import numpy as np
 from sklearn.preprocessing import StandardScaler
 from sklearn.linear_model import Lasso, Ridge
 
-st.title("Car Price Estimator (Lasso vs Ridge)")
+st.title("Price Estimator")
 
-st.write("""
-Enter details of the vehicle below.  
-The app will estimate a **price range** using **Lasso** and **Ridge** regression.
+st.write("""Enter what type of car you are looking for and the model will predict the price range
+         for you dream car.
 """)
 
 # -------------------------
@@ -90,43 +89,43 @@ for col in model_features:
 input_encoded = input_encoded[model_features]
 
 # -------------------------
-# SCALE INPUT
-# -------------------------
-input_scaled = scaler.transform(input_encoded)
-
-# -------------------------
-# PREDICT
-# -------------------------
-lasso_pred = lasso.predict(input_scaled)[0]
-ridge_pred = ridge.predict(input_scaled)[0]
-
-lasso_low, lasso_high = lasso_pred * 0.9, lasso_pred * 1.1
-ridge_low, ridge_high = ridge_pred * 0.9, ridge_pred * 1.1
-
-# -------------------------
 # OUTPUT
 # -------------------------
 
-st.subheader("Predicted Price Ranges")
+if st.button("Estimate Price"):
 
-st.write(f"""
-### **Lasso Estimate:**  
-**${lasso_low:,.0f} → ${lasso_high:,.0f}**  
-(central prediction: ${lasso_pred:,.0f})
+    # Scale
+    input_scaled = scaler.transform(input_encoded)
 
-### **Ridge Estimate:**  
-**${ridge_low:,.0f} → ${ridge_high:,.0f}**  
-(central prediction: ${ridge_pred:,.0f})
-""")
+    # Predictions
+    lasso_pred = lasso.predict(input_scaled)[0]
+    ridge_pred = ridge.predict(input_scaled)[0]
 
-st.subheader("Model Comparison")
+    # Price ranges
+    lasso_low, lasso_high = lasso_pred * 0.9, lasso_pred * 1.1
+    ridge_low, ridge_high = ridge_pred * 0.9, ridge_pred * 1.1
 
-diff = abs(lasso_pred - ridge_pred)
-st.write(f"Difference between models: **${diff:,.0f}**")
+    st.subheader("Predicted Price Ranges")
 
-if lasso_pred > ridge_pred:
-    st.success("Lasso predicts a higher price.")
-elif ridge_pred > lasso_pred:
-    st.success("Ridge predicts a higher price.")
-else:
-    st.info("Both models predict the same value.")
+    st.write(f"""
+    ### **Lasso Regression Range Estimate:**  
+    **Minimum Value:${lasso_low:,.0f}**
+    **Maximum Value:${lasso_high:,.0f}**  
+    
+
+    ### **Ridge Regression Range Estimate:**  
+    **Minimum Value: ${ridge_low:,.0f}**
+    **Maximum Value: ${ridge_high:,.0f}**  
+    
+    """)
+
+    st.subheader("Comparison")
+    diff = abs(lasso_pred - ridge_pred)
+    st.write(f"Difference: **${diff:,.0f}**")
+
+    if lasso_pred > ridge_pred:
+        st.success("Lasso predicts a higher price.")
+    elif ridge_pred > lasso_pred:
+        st.success("Ridge predicts a higher price.")
+    else:
+        st.info("Both models predict the same value.")
