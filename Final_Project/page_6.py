@@ -13,41 +13,35 @@ st.write("""Enter what type of car you are looking for and the model will predic
 # -------------------------
 # Load dataset
 # -------------------------
-@st.cache_data
-def load_data():
-    return pd.read_csv("Final_Project/df_final.csv")
+df = pd.read_csv("Final_Project/df_final.csv")
 
+# -------------------------
+# PREPARE ENCODING
+# -------------------------
 
-@st.cache_resource
-def train_models(df):
-    categorical_cols = ["fuel_type", "make", "Transmission Class"]
+# Correct categorical column names
+categorical_cols = ['fuel_type', 'Transmission Class']
 
-    # Encode main dataset
-    df_encoded = pd.get_dummies(df, columns=categorical_cols, drop_first=True)
+# Encode df
+df_encoded = pd.get_dummies(df, columns=categorical_cols, drop_first=True)
 
-    # Inputs/features
-    X = df_encoded.drop(columns=['price', 'drivetrain', 'body_type',
-                                 'transmission', 'model'])
-    y = df_encoded['price']
+# X and y
+X = df_encoded.drop(columns=['price','drivetrain','body_type', 'transmission','model', 'make'])  # everything EXCEPT price
+y = df_encoded['price']
 
-    # Fit scaler
-    scaler = StandardScaler()
-    X_scaled = scaler.fit_transform(X)
+model_features = X.columns.tolist()
 
-    # Fit Lasso + Ridge
-    lasso = Lasso(alpha=0.1)
-    lasso.fit(X_scaled, y)
+# -------------------------
+# TRAIN MODELS
+# -------------------------
+scaler = StandardScaler()
+X_scaled = scaler.fit_transform(X)
 
-    ridge = Ridge(alpha=1)
-    ridge.fit(X_scaled, y)
+lasso = Lasso(alpha=0.1)
+lasso.fit(X_scaled, y)
 
-    # Return models + required features
-    return scaler, lasso, ridge, X.columns.tolist()
-
-df = load_data()
-scaler, lasso, ridge, model_features = train_models(df)
-
-categorical_cols = ["fuel_type", "make", "Transmission Class"]
+ridge = Ridge(alpha=1)
+ridge.fit(X_scaled, y)
 
 # -------------------------
 # USER INPUT SECTION
@@ -55,7 +49,7 @@ categorical_cols = ["fuel_type", "make", "Transmission Class"]
 
 st.subheader("Vehicle Inputs")
 
-make = st.selectbox("Make", sorted(df["make"].unique()))
+
 fuel = st.selectbox("Fuel Type", sorted(df["fuel_type"].unique()))
 st.write("For Transmission please select 0 for Manual and 1 for Automatic")
 trans = st.selectbox("Transmission Class", sorted(df["Transmission Class"].unique()))
@@ -76,7 +70,6 @@ input_dict = {
     "owner_count": owner_count,
     "vehicle_age": vehicle_age,
     "brand_popularity": brand_pop,
-    "make": make,
     "fuel_type": fuel,
     "Transmission Class": trans
 }
