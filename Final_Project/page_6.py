@@ -27,7 +27,7 @@ categorical_cols = ['fuel_type', 'make', 'Transmission Class']
 df_encoded = pd.get_dummies(df, columns=categorical_cols, drop_first=True)
 
 # X and y
-X = df_encoded.drop(columns=['price'])
+X = df_encoded.drop(columns=['price','drivetrain','body_type', 'transmission','model'])  # everything EXCEPT price
 y = df_encoded['price']
 
 model_features = X.columns.tolist()
