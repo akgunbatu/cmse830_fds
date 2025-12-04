@@ -30,18 +30,19 @@ st.write("""
 - K nearest neighbor is used for other numeric columns.
 - KNN is the best choice for this data because it uses similar values from the neighbors to preserve the realistic relationship.
 - Dataset is also not big enough which makes it a perfect enviroment for KNN.
+- Dataset's missing value was reduced to half for Streamlit to run without any issues
 """)
 
 # I used the week 6 ICA KNN example for my imputation method. The function and the code are from the ICA I have adjusted them to make them fit my data.
 
 df_missing = df_new[df_new.isna().any(axis=1)]
 df_complete = df_new[~df_new.isna().any(axis=1)]
-df_missing_sampled = df_missing.sample(n=8000, random_state=42)
+df_missing_sampled = df_missing.sample(n=12000, random_state=42)
 
 # 3. Combine back: all complete rows + the 10,000 sampled missing rows
 df_reduced = pd.concat([df_complete, df_missing_sampled], ignore_index=True)
 
-numeric_columns = ['mileage','engine_hp', 'owner_count', 'vehicle_age', 'brand_popularity'] #defining a list of columns for imputation
+numeric_columns = ['price','mileage','engine_hp', 'owner_count', 'vehicle_age', 'brand_popularity'] #defining a list of columns for imputation
 df_numeric = df_reduced[numeric_columns] #pulling only those specific columns from the dataset
 
 df_with_missing = df_numeric[df_numeric.isnull().any(axis=1)] #rows with missing values
@@ -88,5 +89,10 @@ with col2: #right column is the imputed data
     st.write(df_imputed[select].describe())
     #showing the statistics of the imputed data
 
+st.write("""
+        - The most drastic change after the imputation is the standard deviation for engine horsepower.
+        - However looking at the histogram above, we can observe that the distribution is not affected extremely.
+        - For other features, the KNN imputation is a really good imputation and doesn't shift the data much.
+        - In the future, for drivetrain and body type, we can extract these values from an API into our dataset.""")
 
 
