@@ -59,8 +59,7 @@ mileage = st.number_input("Mileage", 0, 400000, 60000)
 engine_hp = st.number_input("Engine HP", 50, 1200, 250)
 owner_count = st.number_input("Owner Count", 0, 10, 1)
 vehicle_age = st.number_input("Vehicle Age", 0, 40, 5)
-brand_pop = st.number_input("Brand Popularity", 0, 1, 0.03)
-
+brand_pop = st.number_input("Brand Popularity",min_value=0.039318,max_value=0.040484,value=0.039800,step=0.000001)
 # -------------------------
 # PACK INPUT
 # -------------------------
