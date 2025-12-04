@@ -6,8 +6,8 @@ from sklearn.linear_model import Lasso, Ridge
 
 st.title("Price Estimator")
 
-st.write("""Enter what type of car you are looking for and the model will predict the price range
-         for you dream car.
+st.write("""Enter what type of car you want and the model will predict the price range
+         for the car you are looking for. This might take a little bit of time to run because building your dream takes time.
 """)
 
 # -------------------------
@@ -108,12 +108,12 @@ if st.button("Estimate Price"):
 
     st.write(f"""
     ### **Lasso Regression Range Estimate:**  
-    Minimum Value:{lasso_low:,.0f}
-    Maximum Value:{lasso_high:,.0f}
+    Minimum Value: {lasso_low:,.0f}\n
+    Maximum Value: {lasso_high:,.0f}
     
 
     ### **Ridge Regression Range Estimate:**  
-    Minimum Value: {ridge_low:,.0f}
+    Minimum Value: {ridge_low:,.0f}\n
     Maximum Value: {ridge_high:,.0f}
     
     """)
@@ -132,5 +132,5 @@ if st.button("Estimate Price"):
     st.write("""
             Obviously this model has some issues with getting the correct price range. 
             This is due to the fact that it requires a lot more data points to understand how each feature works, 
-            and it also requires much more diversity using other brands. We also have not included the model into our dataset 
-            because of the same reasons (there are no large variety). For an initial model estimation, however, it is a pretty good estimation.""")
+            and it also requires much more diversity using other brands. We also have not included the model or make into our dataset 
+            because of the same reasons (there are no large variety) and it also takes a very long time to create the model. For an initial model estimation, however, it is a pretty good estimation.""")
