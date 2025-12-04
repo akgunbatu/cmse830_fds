@@ -101,8 +101,9 @@ if st.button("Run Regression Model"):
 
     st.write("Residual Distribution")
 
-    fig, ax = plt.subplots()
-    ax.hist(residuals, bins=30, alpha=0.7)
-    ax.set_title(f"Residual Distribution")
-    ax.set_xlabel("Residual")
-    ax.set_ylabel("Frequency")
+    fig_res, ax_res = plt.subplots()
+    ax_res.hist(residuals, bins=30, alpha=0.7)
+    ax_res.set_title(f"Residual Distribution")
+    ax_res.set_xlabel("Residual")
+    ax_res.set_ylabel("Frequency")
+    st.pyplot(fig_res)
