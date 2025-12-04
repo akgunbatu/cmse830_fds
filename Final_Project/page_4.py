@@ -74,3 +74,13 @@ fig_3d = px.scatter_3d(df_filtered,x=x_axis,y=y_axis,z=z_axis,color=color_pick,t
 
 st.plotly_chart(fig_3d, use_container_width=True)
 
+st.write("### Features to Look For")
+
+st.write("""
+        - Our dataset have a majority of Petrol and Diesel fuel types. However, their count decreases as the price increases.
+        - Manual Transmission dominates the low-price ranges, while the Automatic has a much larger interquartile range
+        - Multiple Linear Regression can be observed in the scatter plot for fuel types, meansing each fuel type has a unique affect on the price
+        - Engine Horsepower looks like it is scattered randomly, but looking at the 3D plot, we can see that it has an increase as the price increases. 
+        - Mileage has a much more random data with extreme outliers which is making it harder to predict.
+        - Vehicle Age and Owner Count both have a mild negative relationship with price. You can see the data is shifting down, but still has some outliers.
+        """)

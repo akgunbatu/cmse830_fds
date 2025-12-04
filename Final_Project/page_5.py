@@ -8,7 +8,7 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.linear_model import Lasso, Ridge
 from sklearn.metrics import mean_squared_error, r2_score
 
-st.title("Lasso vs Ridge Regression Explorer")
+st.title("Lasso vs Ridge Regression")
 
 # ---------------------------
 # Load your dataset
@@ -16,7 +16,12 @@ st.title("Lasso vs Ridge Regression Explorer")
 df =  pd.read_csv("Final_Project/df_final.csv") # <-- your dataset
 
 
-
+st.write("""
+        For finding how each feature affects the car price, Lasso and Ridge regression is chosen 
+        to compare how both model will be able to predict. To be able to include the fuel types into our model,
+        the column was one-hot encoded, which converts the strings into binary matrices. 
+        Now, let us see how both model will do!
+        """)
 categorical_cols = ['fuel_type']
 
 df_encoded = pd.get_dummies(df,columns=categorical_cols,drop_first=True)      
@@ -99,6 +104,7 @@ if st.button("Run Regression Model"):
     ax.set_title(model_choice)
     st.pyplot(fig)
 
+    
     st.write("Residual Distribution")
 
     fig_res, ax_res = plt.subplots()
@@ -107,3 +113,12 @@ if st.button("Run Regression Model"):
     ax_res.set_xlabel("Residual")
     ax_res.set_ylabel("Frequency")
     st.pyplot(fig_res)
+
+    st.write("""
+            - Looking at both Lasso and Ridge Regression models, we can observe that they are almost identical.
+            - The extremely high MSE is due to using dollars that are in the range of tens of thousands and we are taking the square of that.
+            - The R-squared for both model is very high, meaning that both our model have a very high accuracy in predicting the data.
+            - From the scatter plot with regresion lines, we can see that it is not exactly a perfect fit but it is close to be one.
+            - This means in the future we might have to add other categorical columns like the Make.
+            - Residual distribution for both plot shows that it centers around zero, which means the model does not over or under-predicts.
+            - Overall both model is a really good way of predicting the price.""")

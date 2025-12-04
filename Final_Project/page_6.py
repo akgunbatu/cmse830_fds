@@ -51,8 +51,8 @@ st.subheader("Vehicle Inputs")
 
 make = st.selectbox("Make", sorted(df["make"].unique()))
 fuel = st.selectbox("Fuel Type", sorted(df["fuel_type"].unique()))
+st.write("For Transmission please select 0 for Manual and 1 for Automatic")
 trans = st.selectbox("Transmission Class", sorted(df["Transmission Class"].unique()))
-
 year = st.number_input("Year", 1980, 2025, 2018)
 mileage = st.number_input("Mileage", 0, 400000, 60000)
 engine_hp = st.number_input("Engine HP", 50, 1200, 250)
@@ -109,13 +109,13 @@ if st.button("Estimate Price"):
 
     st.write(f"""
     ### **Lasso Regression Range Estimate:**  
-    **Minimum Value:${lasso_low:,.0f}**
-    **Maximum Value:${lasso_high:,.0f}**  
+    Minimum Value:{lasso_low:,.0f}
+    Maximum Value:{lasso_high:,.0f}
     
 
     ### **Ridge Regression Range Estimate:**  
-    **Minimum Value: ${ridge_low:,.0f}**
-    **Maximum Value: ${ridge_high:,.0f}**  
+    Minimum Value: {ridge_low:,.0f}
+    Maximum Value: {ridge_high:,.0f}
     
     """)
 
@@ -129,3 +129,9 @@ if st.button("Estimate Price"):
         st.success("Ridge predicts a higher price.")
     else:
         st.info("Both models predict the same value.")
+
+    st.write("""
+            Obviously this model has some issues with getting the correct price range. 
+            This is due to the fact that it requires a lot more data points to understand how each feature works, 
+            and it also requires much more diversity using other brands. We also have not included the model into our dataset 
+            because of the same reasons (there are no large variety). For an initial model estimation, however, it is a pretty good estimation.""")
