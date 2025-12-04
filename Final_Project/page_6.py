@@ -12,24 +12,26 @@ The app will estimate a **price range** using **Lasso** and **Ridge** regression
 """)
 
 # -------------------------
-# Load your final dataset
+# Load dataset
 # -------------------------
-df_new2 = pd.read_csv("Final_Project/df_final.csv")
-df = df_new2.copy()
+df = pd.read_csv("Final_Project/df_final.csv")
 
 # -------------------------
 # PREPARE ENCODING
 # -------------------------
 
-# Categorical variables
-categorical_cols = ['fuel_type', 'make', 'fuel_type']
+# Correct categorical column names
+categorical_cols = ['fuel_type', 'make', 'Transmission Class']
 
-df_encoded = pd.get_dummies(df,columns=categorical_cols,drop_first=True)  
-model_features = df_encoded.drop(columns=['price','drivetrain','body_type', 'transmission','model']).columns.tolist()
+# Encode df
+df_encoded = pd.get_dummies(df, columns=categorical_cols, drop_first=True)
 
-X = df_encoded.drop(columns=['price','drivetrain','body_type', 'transmission','model'])  # everything EXCEPT price
+# X and y
+X = df_encoded.drop(columns=['price'])
 y = df_encoded['price']
-# Save column list for model input
+
+model_features = X.columns.tolist()
+
 # -------------------------
 # TRAIN MODELS
 # -------------------------
@@ -48,20 +50,19 @@ ridge.fit(X_scaled, y)
 
 st.subheader("Vehicle Inputs")
 
-# Text + numeric inputs
 make = st.selectbox("Make", sorted(df["make"].unique()))
 fuel = st.selectbox("Fuel Type", sorted(df["fuel_type"].unique()))
-trans = st.selectbox("Transmission", sorted(df["Transmission Class"].unique()))
+trans = st.selectbox("Transmission Class", sorted(df["Transmission Class"].unique()))
 
-year = st.number_input("Year", min_value=1980, max_value=2025, value=2018)
-mileage = st.number_input("Mileage", min_value=0, max_value=400000, value=60000)
-engine_hp = st.number_input("Engine HP", min_value=50, max_value=1200, value=250)
-owner_count = st.number_input("Owner Count", min_value=0, max_value=10, value=1)
-vehicle_age = st.number_input("Vehicle Age", min_value=0, max_value=40, value=5)
-brand_pop = st.number_input("Brand Popularity", min_value=0, max_value=100, value=50)
+year = st.number_input("Year", 1980, 2025, 2018)
+mileage = st.number_input("Mileage", 0, 400000, 60000)
+engine_hp = st.number_input("Engine HP", 50, 1200, 250)
+owner_count = st.number_input("Owner Count", 0, 10, 1)
+vehicle_age = st.number_input("Vehicle Age", 0, 40, 5)
+brand_pop = st.number_input("Brand Popularity", 0, 1, 0.03)
 
 # -------------------------
-# PACK INPUT INTO A ROW
+# PACK INPUT
 # -------------------------
 
 input_dict = {
@@ -72,42 +73,39 @@ input_dict = {
     "vehicle_age": vehicle_age,
     "brand_popularity": brand_pop,
     "make": make,
-    "Fuel Type": fuel,
+    "fuel_type": fuel,
     "Transmission Class": trans
 }
 
 input_df = pd.DataFrame([input_dict])
 
-# One-hot encode using same structure as training
+# One-hot encode user input
 input_encoded = pd.get_dummies(input_df, columns=categorical_cols)
 
-# Add missing columns (ones that exist in training but not in user input)
+# Add missing columns
 for col in model_features:
     if col not in input_encoded:
         input_encoded[col] = 0
 
-# Arrange columns in correct order
+# Reorder
 input_encoded = input_encoded[model_features]
 
 # -------------------------
-# SCALE USER INPUT
+# SCALE INPUT
 # -------------------------
-
 input_scaled = scaler.transform(input_encoded)
 
 # -------------------------
-# PRICE PREDICTION
+# PREDICT
 # -------------------------
-
 lasso_pred = lasso.predict(input_scaled)[0]
 ridge_pred = ridge.predict(input_scaled)[0]
 
-# Create price ranges (±10% buffer)
 lasso_low, lasso_high = lasso_pred * 0.9, lasso_pred * 1.1
 ridge_low, ridge_high = ridge_pred * 0.9, ridge_pred * 1.1
 
 # -------------------------
-# DISPLAY RESULTS
+# OUTPUT
 # -------------------------
 
 st.subheader("Predicted Price Ranges")
@@ -122,7 +120,6 @@ st.write(f"""
 (central prediction: ${ridge_pred:,.0f})
 """)
 
-# Comparison Box
 st.subheader("Model Comparison")
 
 diff = abs(lasso_pred - ridge_pred)
