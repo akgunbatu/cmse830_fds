@@ -1,13 +1,14 @@
 import streamlit as st
 import numpy as np
 import pandas as pd
+import seaborn as sns
 import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 from sklearn.linear_model import Lasso, Ridge
 from sklearn.metrics import mean_squared_error, r2_score
 
-st.title("🔍 Lasso vs Ridge Regression Explorer")
+st.title("Lasso vs Ridge Regression Explorer")
 
 # ---------------------------
 # Load your dataset
@@ -19,7 +20,7 @@ df =  pd.read_csv("Final_Project/df_final.csv") # <-- your dataset
 # ---------------------------
 # Select predictors + target
 # ---------------------------
-X = df[['mileage', 'engine_hp', 'owner_count', 'vehicle_age', 'brand_popularity']]
+X = df[['mileage', 'engine_hp', 'owner_count', 'vehicle_age', 'brand_popularity', 'Transmission Class']]
 y = df['price']
 
 # ---------------------------
@@ -65,16 +66,19 @@ if st.button("Run Regression Model"):
     pred = model.predict(X_test_scaled)
 
     mse = mean_squared_error(y_test, pred)
+    rmse = np.sqrt(mse)
     r2 = r2_score(y_test, pred)
+    residuals = y_test - pred
 
     # ---------------------------
     # Output Results
     # ---------------------------
-    st.subheader(f"📊 Results: {model_choice}")
+    st.subheader(f"Results: {model_choice}")
 
-    col1, col2 = st.columns(2)
-    col1.metric("Mean Squared Error", f"{mse:,.2f}")
-    col2.metric("R² Score", f"{r2:.4f}")
+    col1, col2, col3 = st.columns(2)
+    col1.metric("Mean-Squared Error", f"{mse:,.2f}")
+    col2.metric("Root Mean-Squared Error", f"{rmse:,.2f}")
+    col3.metric("R² Score", f"{r2:.4f}")
 
     st.write("### Coefficients")
     coef_df = pd.DataFrame({
@@ -84,13 +88,21 @@ if st.button("Run Regression Model"):
     st.dataframe(coef_df)
 
     # Plot Actual vs Predicted
-    st.write("### Actual vs Predicted")
+    st.write("Actual vs Predicted")
     
-
     fig, ax = plt.subplots()
     ax.scatter(y_test, pred, alpha=0.5)
     ax.plot([y_test.min(), y_test.max()], [y_test.min(), y_test.max()], "r--")
+    sns.regplot(x=y_test, y=pred, ax = ax, scatter_kws={'alpha':0.6}, line_kws={'color':'red'})
     ax.set_xlabel("Actual Price")
     ax.set_ylabel("Predicted Price")
     ax.set_title(model_choice)
     st.pyplot(fig)
+
+    st.write("Residual Distribution")
+
+    fig, ax = plt.subplots()
+    ax.hist(residuals, bins=30, alpha=0.7)
+    ax.set_title(f"Residual Distribution")
+    ax.set_xlabel("Residual")
+    ax.set_ylabel("Frequency")

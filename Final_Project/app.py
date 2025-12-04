@@ -7,10 +7,11 @@ main_page = st.Page("main_page.py", title="Data Introduction")
 page_2 = st.Page("page_2.py", title="Missing Values")
 page_3 = st.Page("page_3.py", title="Correlation")
 page_4 = st.Page("page_4.py", title = "EDA")
-page_5 = st.Page("page_5.py", title = "Lasso, and Ridge Regression")
+page_5 = st.Page("page_5.py", title = "Lasso vs. Ridge Regression")
+page_6 = st.Page("page_6.py", title= "Real Life Application")
 
 # Set up navigation
-pg = st.navigation([main_page, page_2, page_3, page_4, page_5])
+pg = st.navigation([main_page, page_2, page_3, page_4, page_5, page_6])
 
 # Run the selected page
 pg.run()

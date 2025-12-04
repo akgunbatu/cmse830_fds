@@ -29,9 +29,9 @@ df_filtered = df_new[(df_new["price"] >= price_range[0]) & (df_new["price"] <= p
 #for this line I used ChatGPT to understand how I can intergrate the slider to the dataset 
 
 
-color_pick = st.selectbox("Select variable for hue:", ["fuel_type", "drivetrain", "Transmission Class"]) #setting up a select box to use for the color part of the plots
+color_pick = st.selectbox("Select variable for hue:", ["fuel_type", "drivetrain", "Transmission Class","make"]) #setting up a select box to use for the color part of the plots
 
-numeric_axes = ["price", "engine_hp", "year", "vehicle_age", "mileage"] #creating a new list of columns
+numeric_axes = ["price", "engine_hp", "year", "vehicle_age", "mileage","owner_count","vehicle_age","brand_popularity"] #creating a new list of columns
 x_axis = st.selectbox("Select X-axis:", numeric_axes, index=0) #setting up a x-axis select box from the list of columns for the plot, default is price
 y_axis = st.selectbox("Select Y-axis:", numeric_axes, index=1) #setting up a y-axis select box from the list of columns for the plot, default is engine_hp
 z_axis = st.selectbox("Select Z-axis:", numeric_axes, index=3) #setting up a z-axis select box from the list of columns for the plot, default is vehicle_age
@@ -51,6 +51,9 @@ fig_scatter.update_layout(width=1000,height=600,
 
 st.plotly_chart(fig_scatter, use_container_width=True)
 
+st.subheader(f"Boxplot of {color_pick}")
+fig_box = px.box(data_frame=df_filtered, x=color_pick, y=x_axis)
+st.plotly_chart(fig_box)
 
 st.subheader(f"Distribution by {color_pick}")
 fig_price = px.histogram(df_filtered, x=x_axis, color=color_pick, nbins=40) #setting up a histogram for the x axis and the color picked for distribution visualization
