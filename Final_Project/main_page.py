@@ -28,31 +28,39 @@ if dataset == 'Ford Vehicles':
     st.markdown("Ford Vehicle Dataset")
     st.dataframe(ford_df.head())
     #introducing the dataset and showing the first 5 rows
+    st.write("""
+             - A Ford Dataset that contains all the available vehicles from the Ford company.
+             """)
 
 elif dataset == 'Vehicle Price Prediction':
     st.markdown("Vehicle Price Prediction Dataset")
     st.dataframe(vehicle_df.head())
+    st.write("""
+             - A very large dataset that contains engine horsepower which is something important in price.
+             """)
     #introducing the dataset and showing the first 5 rows
 
 elif dataset == 'Car Price':
     st.markdown("Car Price Dataset")
     st.dataframe(car_df.head())
     #introducing the dataset and showing the first 5 rows
+    st.write("""
+             - Another Price Prediction Dataset to add more diversity to our dataset.
+             """)
 
 elif dataset == 'Merged':
-    col1, col2 = st.columns([2, 1]) #splitting the page into two columns
-    with col1:
-        st.markdown("Merged Dataset")
-        st.dataframe(df_new.head())
-        #for the left column, the data is introduced and then the first five rows is shown.
-    with col2:
-        st.write("""
-        - Two dataset merged together using the vehicle price prediction columns.
-        - Cleaned and removed duplicates.
-        - Removed the cars with same model and same year assuming the price does not change.
-        - Added a binary Transmission Class; 0 for Manual and 1 for Automatic.
-        - Some columns are converted into a float for visualization""")
-        #for the right columns, a brief explanation of what has changed with merging.
+    
+    st.markdown("Merged Dataset")
+    st.dataframe(df_new.head())
+    #for the left column, the data is introduced and then the first five rows is shown.
+    
+    st.write("""
+    - Three dataset merged together using the vehicle price prediction columns.
+    - Cleaned the dataset.
+    - Cars with same model, year, and some other variables were kept assuming their price changes across the dataset.
+    - Added a binary Transmission Class; 0 for Manual and 1 for Automatic.
+    - Some columns are converted into a float for visualization.""")
+    #for the right columns, a brief explanation of what has changed with merging.
 
 
 

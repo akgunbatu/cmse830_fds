@@ -17,11 +17,11 @@ df =  pd.read_csv("Final_Project/df_final.csv") # <-- your dataset
 
 
 
-# ---------------------------
-# Select predictors + target
-# ---------------------------
-X = df[['mileage', 'engine_hp', 'owner_count', 'vehicle_age', 'brand_popularity', 'Transmission Class']]
-y = df['price']
+categorical_cols = ['fuel_type']
+
+df_encoded = pd.get_dummies(df,columns=categorical_cols,drop_first=True)      
+X = df_encoded.drop(columns=['price','drivetrain','body_type', 'transmission','model','make'])  # everything EXCEPT price
+y = df_encoded['price']
 
 # ---------------------------
 # Model selector
