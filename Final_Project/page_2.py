@@ -37,7 +37,7 @@ st.write("""
 
 df_missing = df_new[df_new.isna().any(axis=1)]
 df_complete = df_new[~df_new.isna().any(axis=1)]
-df_missing_sampled = df_missing.sample(n=12000, random_state=42)
+df_missing_sampled = df_missing.sample(n=9000, random_state=42)
 
 # 3. Combine back: all complete rows + the 10,000 sampled missing rows
 df_reduced = pd.concat([df_complete, df_missing_sampled], ignore_index=True)

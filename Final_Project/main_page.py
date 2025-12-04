@@ -19,6 +19,10 @@ vehicle_df = pd.read_csv("Final_Project/vehicle_price_prediction.zip")
 car_df = pd.read_csv("Final_Project/car_price_prediction_.csv")
 df_new = pd.read_csv("Final_Project/df_final_na.csv")
 df_new = df_new.drop(columns = "Unnamed: 0") #dropping the first unknown column
+st.write("""
+        In this project, we will be looking at a dataset that contains vehicles with their unique features and how they correlate with their price. 
+        Hopefully by the end of this, we will be able to estimate a car's price just from picking out the desired feature inputs. 
+        First, let's look at which data we will be using.""")
 
 st.markdown('Select a Dataset to View') #title for the button selection
 
