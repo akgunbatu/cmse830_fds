@@ -51,9 +51,9 @@ fig_scatter.update_layout(width=1000,height=600,
 
 st.plotly_chart(fig_scatter, use_container_width=True)
 
-st.subheader(f"Boxplot of {color_pick}")
-fig_box = px.box(data_frame=df_filtered, x=color_pick, y=x_axis)
-st.plotly_chart(fig_box)
+st.subheader(f"Boxplot of {color_pick}") #title for boxplot
+fig_box = px.box(data_frame=df_filtered, x=color_pick, y=x_axis) #creating a boxplot using x and y values
+st.plotly_chart(fig_box) #displaying the boxplot
 
 st.subheader(f"Distribution by {color_pick}")
 fig_price = px.histogram(df_filtered, x=x_axis, color=color_pick, nbins=40) #setting up a histogram for the x axis and the color picked for distribution visualization
@@ -84,3 +84,4 @@ st.write("""
         - Mileage has a much more random data with extreme outliers which is making it harder to predict.
         - Vehicle Age and Owner Count both have a mild negative relationship with price. You can see the data is shifting down, but still has some outliers.
         """)
+#bullet points of what we observe from the plots

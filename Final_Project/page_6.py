@@ -10,30 +10,15 @@ st.write("""Enter what type of car you want and the model will predict the price
          for the car you are looking for. This might take a little bit of time to run because building your dream takes time.
 """)
 
-# -------------------------
-# Load dataset
-# -------------------------
 df = pd.read_csv("Final_Project/df_final.csv")
 
-# -------------------------
-# PREPARE ENCODING
-# -------------------------
+df_encoded = pd.get_dummies(df, columns=['fuel_type'], drop_first=True)
 
-# Correct categorical column names
-categorical_cols = ['fuel_type', 'Transmission Class']
-
-# Encode df
-df_encoded = pd.get_dummies(df, columns=categorical_cols, drop_first=True)
-
-# X and y
 X = df_encoded.drop(columns=['price','drivetrain','body_type', 'transmission','model', 'make'])  # everything EXCEPT price
 y = df_encoded['price']
 
 model_features = X.columns.tolist()
 
-# -------------------------
-# TRAIN MODELS
-# -------------------------
 scaler = StandardScaler()
 X_scaled = scaler.fit_transform(X)
 
@@ -43,9 +28,6 @@ lasso.fit(X_scaled, y)
 ridge = Ridge(alpha=1)
 ridge.fit(X_scaled, y)
 
-# -------------------------
-# USER INPUT SECTION
-# -------------------------
 
 st.subheader("Vehicle Inputs")
 
@@ -59,9 +41,6 @@ engine_hp = st.number_input("Engine HP", 50, 1200, 250)
 owner_count = st.number_input("Owner Count", 0, 10, 1)
 vehicle_age = st.number_input("Vehicle Age", 0, 40, 5)
 brand_pop = st.number_input("Brand Popularity",min_value=0.039318,max_value=0.040484,value=0.039800,step=0.00001)
-# -------------------------
-# PACK INPUT
-# -------------------------
 
 input_dict = {
     "year": year,
@@ -76,24 +55,16 @@ input_dict = {
 
 input_df = pd.DataFrame([input_dict])
 
-# One-hot encode user input
-input_encoded = pd.get_dummies(input_df, columns=categorical_cols)
+input_encoded = pd.get_dummies(input_df, columns=['fuel_type'])
 
-# Add missing columns
 for col in model_features:
     if col not in input_encoded:
         input_encoded[col] = 0
 
-# Reorder
 input_encoded = input_encoded[model_features]
-
-# -------------------------
-# OUTPUT
-# -------------------------
 
 if st.button("Estimate Price"):
 
-    # Scale
     input_scaled = scaler.transform(input_encoded)
 
     # Predictions
