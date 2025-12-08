@@ -1,5 +1,6 @@
 # cmse830_fds
 Introduction
+
 **This project aims to observe the vehicle features and how it affects the price. It performs imputation to get rid of missing values and initial EDA to explore the features that influences the price. It creates a Lasso and Ridge Regression models and applies it into a real-world estimation using the Streamlit web app. For our web app, we use 5 different dataset. To access the Final Project files, click on the Final_Project folder. From 2 of those is our merged dataset with and without missing values. If you want to see or access the merged dataset and the imputated dataset, you can open the Final Project Jupyter notebook. For loking at which packages I used, you can look at the requirements.txt or again the Jupyter notebook.**
 
 Why you chose your dataset
