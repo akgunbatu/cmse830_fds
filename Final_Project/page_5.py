@@ -23,11 +23,12 @@ st.write("""
 
 
 df_encoded = pd.get_dummies(df,columns=['fuel_type'],drop_first=True)  #to include fuel types into our model we one-hot encode the fuel types 
+#diesel type is dropped for avoiding multicolliniearity
 #for the above code, I used the following pages; https://www.programiz.com/python-programming/pandas/methods/get_dummies
 # https://www.geeksforgeeks.org/pandas/python-pandas-get_dummies-method/
  
-X = df_encoded.drop(columns=['price','drivetrain','body_type', 'transmission','model','make'])  #in our new dataset we take our numerical columns
-y = df_encoded['price'] #for our target column we take the prcie since we are trying to predict the price
+X = df_encoded.drop(columns=['price','drivetrain','body_type', 'transmission','model','make', "Unnamed: 0"])  #in our new dataset we take our numerical columns for the values to observe in price
+y = df_encoded['price'] #for our target column we take the price since we are trying to predict the price
 
 
 model_choice = st.radio("Choose Regression Model:",["Lasso Regression", "Ridge Regression"]) #creating a button feature to choose between the regressions
