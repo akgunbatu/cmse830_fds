@@ -59,7 +59,6 @@ elif dataset == 'Merged':
     st.markdown("Merged Dataset")
     st.dataframe(df_new.head())
     #for the left column, the data is introduced and then the first five rows is shown.
-    st.dataframe(df_new.info()) #showing the initial info for the merged dataset
     st.write("""
     - Three dataset merged together using the vehicle price prediction columns.
     - Cleaned the dataset.

@@ -70,10 +70,10 @@ input_encoded = input_encoded[model_features] #reorders the columns so we don't 
 
 if st.button("Estimate Price"):
 
-    input_scaled = scaler.transform(input_encoded)
+    input_scaled = scaler.transform(input_encoded) #scaling the input dataframe
 
-    lasso_pred = lasso.predict(input_scaled)[0]
-    ridge_pred = ridge.predict(input_scaled)[0]
+    lasso_pred = lasso.predict(input_scaled)[0] #retrieving the lasso price prediction
+    ridge_pred = ridge.predict(input_scaled)[0] #retrieving the ridge price prediction
 
 
     st.subheader("Predicted Prices") #title for predictions
